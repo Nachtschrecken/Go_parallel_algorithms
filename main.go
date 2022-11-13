@@ -31,8 +31,9 @@ func searchProblem() {
 			pp, _ := cr.Int(cr.Reader, big.NewInt(int64(math.Pow(2, 9))))
 			rand.Seed(pp.Int64())
 			arr = rand.Perm(int(math.Pow(2, float64(pow))))
-			tA, tB := searcher(arr)
-			res[i][0] = tA
+			// tA, tB := searcher(arr)
+			tB := searcher(arr)
+			// res[i][0] = tA
 			res[i][1] = tB
 		}
 
@@ -50,28 +51,30 @@ func searchProblem() {
 		}
 
 		// Array Length, Time Sequential, Time Concurrent, Difference Time
-		fmt.Println(len(arr),
-			float64(total1.Nanoseconds())/1000,
-			float64(total2.Nanoseconds())/1000,
-			float64(total3.Nanoseconds())/1000)
+		// fmt.Println(len(arr),
+		// 	float64(total1.Nanoseconds())/1000,
+		// 	float64(total2.Nanoseconds())/1000,
+		// 	float64(total3.Nanoseconds())/1000)
+
+		fmt.Println(float64(total2.Nanoseconds())/1000)
 	}
 
 }
 
-func searcher(arr []int) (time.Duration, time.Duration) {
+func searcher(arr []int) time.Duration {
 
 	date := 4
-	p := 1
-	part := 0
+	p := 4
+	// part := 0
 	// pos := 0
 	// 16 processors / goroutines
 	elems := len(arr) / p // the number of elements per block
 
 	// primitive sequential algorithm
-	t1 := time.Now()
-	_, pResult := findDate(arr, date, part)
-	tA := time.Since(t1)
-	pResult++
+	// t1 := time.Now()
+	// _, pResult := findDate(arr, date, part)
+	// tA := time.Since(t1)
+	// pResult++
 
 	// concurrent algorithm
 	var wg sync.WaitGroup
@@ -99,7 +102,8 @@ func searcher(arr []int) (time.Duration, time.Duration) {
 	// fmt.Println("Primitive Result: ", pResult, ", ", tA)
 	// fmt.Println("Concurrent Result: ", result, ", ", tB)
 
-	return tA, tB
+	// return tA, tB
+	return tB
 }
 
 func findDate(nArr []int, date, part int) (int, int) {
