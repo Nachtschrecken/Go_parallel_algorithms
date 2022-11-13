@@ -11,7 +11,7 @@ import (
 )
 
 // TODO: Algorithms to implement
-// [ ] Search Problem
+// [X] Search Problem
 // [ ] Scalar Product
 // [ ] Selection
 // [ ] Merging
@@ -22,6 +22,8 @@ func main() {
 }
 
 func searchProblem() {
+
+	t := time.Now()
 
 	for pow := 0; pow < 31; pow++ {
 
@@ -56,15 +58,17 @@ func searchProblem() {
 		// 	float64(total2.Nanoseconds())/1000,
 		// 	float64(total3.Nanoseconds())/1000)
 
-		fmt.Println(float64(total2.Nanoseconds())/1000)
+		fmt.Println(float64(total2.Nanoseconds()) / 1000)
 	}
 
+	tT := time.Since(t)
+	fmt.Println(tT)
 }
 
 func searcher(arr []int) time.Duration {
 
 	date := 4
-	p := 4
+	p := 512
 	// part := 0
 	// pos := 0
 	// 16 processors / goroutines
