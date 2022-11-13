@@ -23,13 +23,14 @@ func main() {
 
 func searchProblem() {
 
-	for pow := 5; pow < 30; pow++ {
+	for pow := 0; pow < 31; pow++ {
 
 		res := [20][2]time.Duration{}
+		arr := []int{}
 		for i := 0; i < 20; i++ {
 			pp, _ := cr.Int(cr.Reader, big.NewInt(int64(math.Pow(2, 9))))
 			rand.Seed(pp.Int64())
-			arr := rand.Perm(int(math.Pow(2, float64(pow))))
+			arr = rand.Perm(int(math.Pow(2, float64(pow))))
 			tA, tB := searcher(arr)
 			res[i][0] = tA
 			res[i][1] = tB
@@ -37,21 +38,22 @@ func searchProblem() {
 
 		var total1 time.Duration
 		for _, v := range res {
-			total1 += v[0] - v[1]
+			total1 += v[0]
 		}
-		fmt.Println("Improvement:", total1/20)
-
 		var total2 time.Duration
 		for _, v := range res {
-			total2 += v[0]
+			total2 += v[1]
 		}
-		fmt.Println("Sequential Median:", total2/20)
-
 		var total3 time.Duration
 		for _, v := range res {
-			total3 += v[1]
+			total3 += v[0] - v[1]
 		}
-		fmt.Println("Concurrent Median:", total3/20)
+
+		// Array Length, Time Sequential, Time Concurrent, Difference Time
+		fmt.Println(len(arr),
+			float64(total1.Nanoseconds())/1000,
+			float64(total2.Nanoseconds())/1000,
+			float64(total3.Nanoseconds())/1000)
 	}
 
 }
@@ -59,7 +61,7 @@ func searchProblem() {
 func searcher(arr []int) (time.Duration, time.Duration) {
 
 	date := 4
-	p := 16
+	p := 1
 	part := 0
 	// pos := 0
 	// 16 processors / goroutines
